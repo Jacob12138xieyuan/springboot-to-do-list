@@ -49,9 +49,6 @@ public class TaskRestController {
     @GetMapping("/tasks/user/{userId}")
     public ResponseEntity<Object> findTasksByUserId(@PathVariable int userId){
         List<Task> tasks = taskService.findTasksByUserId(userId);
-        if (tasks == null) {
-            return ApiResponse.generateResponse("User not found", HttpStatus.NOT_FOUND, null);
-        }
         List<TaskResponse> taskResponses = tasks.stream().map(task -> new TaskResponse(task)).collect(Collectors.toList());
         return ApiResponse.generateResponse("User's tasks", HttpStatus.OK, taskResponses);
     }

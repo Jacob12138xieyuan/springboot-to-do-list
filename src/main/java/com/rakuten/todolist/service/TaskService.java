@@ -37,12 +37,8 @@ public class TaskService {
     }
 
     public List<Task> findTasksByUserId(int userId) {
-        Optional<User> result = userRepository.findById(userId);
-        if (result.isPresent()) {
-            List<Task> tasks = result.get().getTasks();
-            return tasks;
-        }
-        return null;
+        List<Task> tasks = taskRepository.findByUserIdOrderByCreateDateDesc(userId);
+        return tasks;
     }
 
     public TaskResponse addTask(TaskRequest taskRequest) {
