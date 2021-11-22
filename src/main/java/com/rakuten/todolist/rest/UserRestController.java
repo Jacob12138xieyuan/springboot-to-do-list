@@ -6,6 +6,8 @@ import com.rakuten.todolist.dto.UserResponse;
 import com.rakuten.todolist.entity.User;
 import com.rakuten.todolist.exception.ValidationException;
 import com.rakuten.todolist.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api")
 public class UserRestController {
+    Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private UserService userService;
 
