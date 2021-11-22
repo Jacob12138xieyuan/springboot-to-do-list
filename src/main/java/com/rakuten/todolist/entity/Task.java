@@ -1,8 +1,17 @@
 package com.rakuten.todolist.entity;
 
+import com.rakuten.todolist.dto.TaskRequest;
+import com.rakuten.todolist.dto.TaskResponse;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name="task")
 public class Task extends BaseEntity implements Serializable {
@@ -15,39 +24,15 @@ public class Task extends BaseEntity implements Serializable {
     private String name;
 
     @Column(name="finished")
-    private Boolean finished;
+    private boolean finished;
 
-    public int getId() {
-        return id;
-    }
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @JoinColumn(name="user_id")
+    private User user;
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Boolean getFinished() {
-        return finished;
-    }
-
-    public void setFinished(Boolean finished) {
-        this.finished = finished;
-    }
-
-    public Task() {
-
-    }
-
-    public Task(String name, Boolean finished) {
-        this.name = name;
-        this.finished = finished;
+    public Task(TaskRequest taskRequest) {
+        this.name = taskRequest.getName();
+        this.finished = taskRequest.isFinished();
     }
 
     @Override

@@ -4,10 +4,11 @@ import com.rakuten.todolist.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query(value = "SELECT * FROM user WHERE email = LOWER(:email) and password = LOWER(:password)", nativeQuery = true)
-    User authenticate(String email, String password);
+import java.util.List;
+import java.util.Optional;
 
-    @Query(value = "SELECT * FROM user WHERE email = LOWER(:email)", nativeQuery = true)
-    User findUserByEmail(String email);
+public interface UserRepository extends JpaRepository<User, Integer> {
+    List<User> findByEmailAndPassword(String email, String password);
+
+    User findByEmail(String email);
 }
