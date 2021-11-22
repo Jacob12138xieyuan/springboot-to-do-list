@@ -8,11 +8,11 @@ import com.rakuten.todolist.repository.TaskRepository;
 import com.rakuten.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TaskService {
@@ -66,5 +66,11 @@ public class TaskService {
 
     public void deleteById(int taskId) {
         taskRepository.deleteById(taskId);
+    }
+
+    // @Scheduled(cron = "0 0/1 * 1/1 * ?") // every minute
+    @Scheduled(cron = "0 0 12 1/1 * ?") // daily
+    public void deleteFinishedTasksDaily() {
+        System.out.println(taskRepository.deleteAllFinishedTasks() + " finished tasks are deleted");
     }
 }
